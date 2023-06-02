@@ -1,1 +1,8 @@
+# Build directories
 build/*
+cmake-build-release/*
+cmake-build-debug/*
+
+# Etc.
+.idea/*
+.vscode/*

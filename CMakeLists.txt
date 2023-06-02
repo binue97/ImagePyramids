@@ -7,6 +7,14 @@ find_package(easy_profiler REQUIRED)
 
 include_directories(src)
 
-add_executable(${PROJECT_NAME} main.cpp)
+set(SRC_FILES
+      src/orb_slam_pyramid_builder.cpp
+      )
 
-target_link_libraries(${PROJECT_NAME} easy_profiler)
+add_executable(${PROJECT_NAME} 
+  main.cpp
+  ${SRC_FILES})
+
+target_link_libraries(${PROJECT_NAME} 
+  easy_profiler
+  ${OpenCV_LIBS})

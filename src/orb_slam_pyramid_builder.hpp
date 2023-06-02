@@ -14,12 +14,16 @@ namespace orb_slam
 class PyramidBuilder
 {
 public:
-    PyramidBuilder() = default;
-    ~PyramidBuilder() = default;
+  PyramidBuilder(int32_t p_level, float scale);
+  ~PyramidBuilder() = default;
 
-    GenerateImagePyramid();
+  void ComputeLevelInfos();
+
+  std::vector<cv::Mat> GenerateImagePyramid(cv::Mat image);
 
 private:
+  int32_t p_level_ = 0;
+  std::vector<float> inv_scales_;
 };
 } // namespace orb_slam
 
