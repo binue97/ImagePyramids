@@ -14,13 +14,14 @@ namespace opencv
 class PyramidBuilder
 {
 public:
-  PyramidBuilder() = default;
+  PyramidBuilder(int32_t p_level, float scale);
   ~PyramidBuilder() = default;
 
   std::vector<cv::Mat> GenerateImagePyramid(cv::Mat image);
 
 private:
   int32_t p_level_ = 0;
+  std::vector<float> inv_scales_;
 };
 } // namespace opencv
 

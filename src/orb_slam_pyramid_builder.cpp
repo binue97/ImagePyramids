@@ -2,12 +2,15 @@
 // Created by binue on 23. 6. 1.
 //
 
+#include "easy/profiler.h"
+
 #include "orb_slam_pyramid_builder.hpp"
 
 namespace orb_slam
 {
 PyramidBuilder::PyramidBuilder(int32_t p_level, float scale) : p_level_(p_level)
 {
+  EASY_BLOCK("ORB Pyramid_Constructor")
   inv_scales_.resize(p_level);
   float inv_scale = 1.f / scale; 
 
@@ -27,6 +30,7 @@ PyramidBuilder::PyramidBuilder(int32_t p_level, float scale) : p_level_(p_level)
 
 std::vector<cv::Mat> PyramidBuilder::GenerateImagePyramid(cv::Mat image)
 {
+  EASY_BLOCK("ORB Pyramid_GeneratePyramid")
   constexpr int32_t EDGE_THRESHOLD = 19;
   std::vector<cv::Mat> pyramid;
   pyramid.resize(p_level_);
@@ -51,16 +55,9 @@ std::vector<cv::Mat> PyramidBuilder::GenerateImagePyramid(cv::Mat image)
       copyMakeBorder(image, temp, EDGE_THRESHOLD, EDGE_THRESHOLD, EDGE_THRESHOLD, EDGE_THRESHOLD,
                       cv::BORDER_REFLECT_101);
     }
-    cv::imshow(std::to_string(level), pyramid[level]);
+    cv::GaussianBlur(pyramid[level], pyramid[level], cv::Size(7, 7), 2, 2, cv::BORDER_REFLECT_101);
+    // cv::imshow(std::to_string(level), pyramid[level]);
   }
-  cv::waitKey(0);
-
-  // TODO (Apply Gaussian Blur)
-  
-
-
-
-
 
   return pyramid;
 }

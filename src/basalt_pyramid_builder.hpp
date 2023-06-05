@@ -14,13 +14,14 @@ namespace basalt
 class PyramidBuilder
 {
 public:
-  PyramidBuilder() = default;
+  PyramidBuilder();
   ~PyramidBuilder() = default;
 
   std::vector<cv::Mat> GenerateImagePyramid(cv::Mat image);
 
 private:
   int32_t p_level_ = 0;
+  std::vector<float> inv_scales_;
 };
 } // namespace basalt
 

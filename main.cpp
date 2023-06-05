@@ -2,9 +2,11 @@
 #include <filesystem>
 #include <string>
 
+#include "easy/profiler.h"
 #include "opencv2/opencv.hpp"
 
 #include "orb_slam_pyramid_builder.hpp"
+#include "opencv_pyramid_builder.hpp"
 
 cv::Mat LoadImage(const std::string& path)
 {
@@ -14,6 +16,9 @@ cv::Mat LoadImage(const std::string& path)
 
 int main(int argc, char** argv)
 {
+  EASY_PROFILER_ENABLE
+
+  constexpr int32_t TEST_ITER = 100;
   constexpr int32_t PYRAMID_LEVELS = 6;
   constexpr float SCALE_FACTOR = 1.2f;
 
@@ -30,7 +35,18 @@ int main(int argc, char** argv)
     exit(-1);
   }
 
-  // ORB_SLAM Image Pyramid
-  auto orb_pyramid = orb_slam::PyramidBuilder(PYRAMID_LEVELS, SCALE_FACTOR);
-  auto v = orb_pyramid.GenerateImagePyramid(image);
+  for (int i = 0; i < TEST_ITER ; ++i)
+  {
+    // ORB_SLAM Image Pyramid
+    auto orb_pyramid_builder = orb_slam::PyramidBuilder(PYRAMID_LEVELS, SCALE_FACTOR);
+    auto orb_pyramid = orb_pyramid_builder.GenerateImagePyramid(image);
+
+    // OpenCV Image Pyramid
+    // auto opencv_pyramid_builder = opencv::PyramidBuilder(PYRAMID_LEVELS, SCALE_FACTOR);
+    // auto opencv_pyramid = opencv_pyramid_builder.GenerateImagePyramid(image);
+
+  }
+  
+
+  profiler::dumpBlocksToFile("/home/binue/projects/experiments/ImagePyramids/result.prof");
 }
