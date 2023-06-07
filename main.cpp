@@ -7,10 +7,11 @@
 
 #include "orb_slam_pyramid_builder.hpp"
 #include "opencv_pyramid_builder.hpp"
+#include "basalt_pyramid_builder.hpp"
 
 cv::Mat LoadImage(const std::string& path)
 {
-  return cv::imread(path, cv::IMREAD_COLOR);
+  return cv::imread(path, cv::IMREAD_GRAYSCALE);
 }
 
 
@@ -45,6 +46,9 @@ int main(int argc, char** argv)
     // auto opencv_pyramid_builder = opencv::PyramidBuilder(PYRAMID_LEVELS, SCALE_FACTOR);
     // auto opencv_pyramid = opencv_pyramid_builder.GenerateImagePyramid(image);
 
+    // Basalt Image Pyramid
+    auto basalt_pyramid_builder = basalt::PyramidBuilder(PYRAMID_LEVELS, SCALE_FACTOR);
+    auto basalt_pyramid = basalt_pyramid_builder.GenerateImagePyramid(image);
   }
   
 

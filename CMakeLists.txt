@@ -10,6 +10,7 @@ include_directories(src)
 set(SRC_FILES
       src/orb_slam_pyramid_builder.cpp
       src/opencv_pyramid_builder.cpp
+      src/basalt_pyramid_builder.cpp
       )
 
 add_executable(${PROJECT_NAME} 
