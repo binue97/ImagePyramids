@@ -10,7 +10,7 @@ namespace orb_slam
 {
 PyramidBuilder::PyramidBuilder(int32_t p_level, float scale) : p_level_(p_level)
 {
-  EASY_BLOCK("ORB Pyramid_Constructor")
+  EASY_BLOCK("ORB Pyramid_Constructor", profiler::colors::Olive)
   inv_scales_.resize(p_level);
   float inv_scale = 1.f / scale; 
 
@@ -30,7 +30,7 @@ PyramidBuilder::PyramidBuilder(int32_t p_level, float scale) : p_level_(p_level)
 
 std::vector<cv::Mat> PyramidBuilder::GenerateImagePyramid(cv::Mat image)
 {
-  EASY_BLOCK("ORB Pyramid_GeneratePyramid")
+  EASY_BLOCK("ORB Pyramid_GeneratePyramid", profiler::colors::Olive)
   constexpr int32_t EDGE_THRESHOLD = 19;
   std::vector<cv::Mat> pyramid;
   pyramid.resize(p_level_);
@@ -55,10 +55,10 @@ std::vector<cv::Mat> PyramidBuilder::GenerateImagePyramid(cv::Mat image)
       copyMakeBorder(image, temp, EDGE_THRESHOLD, EDGE_THRESHOLD, EDGE_THRESHOLD, EDGE_THRESHOLD,
                       cv::BORDER_REFLECT_101);
     }
-    cv::GaussianBlur(pyramid[level], pyramid[level], cv::Size(7, 7), 2, 2, cv::BORDER_REFLECT_101);
+    cv::GaussianBlur(pyramid[level], pyramid[level], cv::Size(5, 5), 1, 1, cv::BORDER_REFLECT_101);
     // cv::imshow(std::to_string(level), pyramid[level]);
   }
-
+  // cv::waitKey(0);
   return pyramid;
 }
 } // namespace orb_slam

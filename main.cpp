@@ -19,9 +19,12 @@ int main(int argc, char** argv)
 {
   EASY_PROFILER_ENABLE
 
-  constexpr int32_t TEST_ITER = 100;
-  constexpr int32_t PYRAMID_LEVELS = 6;
-  constexpr float SCALE_FACTOR = 1.2f;
+  cv::setNumThreads(0);
+  cv::setUseOptimized(false);
+
+  constexpr int32_t TEST_ITER = 100000;
+  constexpr int32_t PYRAMID_LEVELS = 4;
+  constexpr float SCALE_FACTOR = 2.0f;
 
   cv::Mat image;
   if(argc == 2)
@@ -43,8 +46,8 @@ int main(int argc, char** argv)
     auto orb_pyramid = orb_pyramid_builder.GenerateImagePyramid(image);
 
     // OpenCV Image Pyramid
-    // auto opencv_pyramid_builder = opencv::PyramidBuilder(PYRAMID_LEVELS, SCALE_FACTOR);
-    // auto opencv_pyramid = opencv_pyramid_builder.GenerateImagePyramid(image);
+    auto opencv_pyramid_builder = opencv::PyramidBuilder(PYRAMID_LEVELS, SCALE_FACTOR);
+    auto opencv_pyramid = opencv_pyramid_builder.GenerateImagePyramid(image);
 
     // Basalt Image Pyramid
     auto basalt_pyramid_builder = basalt::PyramidBuilder(PYRAMID_LEVELS, SCALE_FACTOR);

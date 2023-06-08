@@ -9,3 +9,7 @@ cmake-build-debug/*
 
 # Profiler results
 *.prof
+
+# Thirdparties
+thirdparty/*
+!thirdparty/.gitinit

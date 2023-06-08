@@ -10,7 +10,7 @@ namespace basalt
 {
 PyramidBuilder::PyramidBuilder(int32_t levels, float scale) : pyr_level_(levels)
 {
-  EASY_BLOCK("Basalt::Pyramid_Constructor")
+  EASY_BLOCK("Basalt::Pyramid_Constructor", profiler::colors::Teal)
   inv_scales_.resize(pyr_level_);
   float inv_scale = 1.f / scale; 
 
@@ -30,9 +30,9 @@ PyramidBuilder::PyramidBuilder(int32_t levels, float scale) : pyr_level_(levels)
 
 cv::Mat PyramidBuilder::GenerateImagePyramid(cv::Mat image)
 {
-  EASY_BLOCK("Basalt::Pyramid_GeneratePyramid")
+  EASY_BLOCK("Basalt::Pyramid_GeneratePyramid", profiler::colors::Teal)
   
-  constexpr int32_t kernel[5] = {1, 4, 6, 4, 1};
+  constexpr int32_t kernel[5] = {0, 0, 16, 0, 0};
   orig_rows_ = image.rows;
   orig_cols_ = image.cols;
   pyramid_image_ = cv::Mat(image.rows, image.cols * 1.5, image.type());
@@ -58,8 +58,8 @@ cv::Mat PyramidBuilder::GenerateImagePyramid(cv::Mat image)
       for (int c = 0; c < prev_img.cols; ++c)
       {
         tmp.at<int32_t>(c, r) = kernel[0] * row_m2[c] + kernel[1] * row_m1[c] + 
-                                 kernel[2] * row[c] + kernel[3] * row_p1[c] +
-                                 kernel[4] * row_p2[c];
+                                kernel[2] * row[c] + kernel[3] * row_p1[c] +
+                                kernel[4] * row_p2[c];
       }
     }
 
@@ -76,14 +76,16 @@ cv::Mat PyramidBuilder::GenerateImagePyramid(cv::Mat image)
       for (int32_t r = 0; r < tmp.cols; ++r) 
       {
         int32_t val_int32 = kernel[0] * row_m2[r] + kernel[1] * row_m1[r] +
-                              kernel[2] * row[r] + kernel[3] * row_p1[r] +
-                              kernel[4] * row_p2[r];
+                            kernel[2] * row[r] + kernel[3] * row_p1[r] +
+                            kernel[4] * row_p2[r];
         uint8_t val = ((val_int32 + (1 << 7)) >> 8);
         cur_img.at<uint8_t>(r, c) = val;
       }
     }
   }
-  
+  // cv::imshow("Pyramid_image", pyramid_image_);
+  // cv::waitKey(0);
+
   return pyramid_image_;
 }
 } // namespace basalt
